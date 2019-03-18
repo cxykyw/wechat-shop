@@ -26,7 +26,7 @@ public class UserServiceImpl extends BaseApiService implements UserService {
 	 * 注册服务
 	 */
 	@Override
-	public Map<String, Object> regist(UserEntity userEntity) {
+	public Map<String, Object> regist(@RequestBody UserEntity userEntity) {
 		if(StringUtils.isEmpty(userEntity.getUserName())) {
 			return setResultParamError("用户名不能为空");
 		}
@@ -43,7 +43,7 @@ public class UserServiceImpl extends BaseApiService implements UserService {
 	}
 
 	@Override
-	public Map<String, Object> login(UserEntity userEntity) {
+	public Map<String, Object> login(@RequestBody UserEntity userEntity) {
 		return userServiceManage.login(userEntity);
 	}
 
