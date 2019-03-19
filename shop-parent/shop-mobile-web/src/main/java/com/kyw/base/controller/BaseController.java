@@ -32,7 +32,7 @@ public class BaseController {
 	}
 	
 	protected String setError(HttpServletRequest request, String msg, String address) {
-		request.setAttribute("error", "注册失败!");
+		request.setAttribute("error", msg);
 		return address;
 	}
 }
