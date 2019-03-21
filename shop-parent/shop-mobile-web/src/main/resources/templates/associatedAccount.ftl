@@ -17,14 +17,7 @@
 <script type="text/javascript"
 	src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js"
 	data-appid="APPID" data-redirecturi="REDIRECTURI" charset="utf-8"></script>
-<script type="text/javascript">
-	function qqLogin() {
-		QC.Login.showPopup({
-			appId : "101420900",
-			redirectURI : "http://127.0.0.1:8764/mobile/loginQu/qq/callback"
-		});
-	}
-</script>
+
 <body class="zh_CN">
 	<div class="layout">
 		<div class="nl-content">
@@ -91,7 +84,7 @@
 
 					
 
-						<span id="custom_display_128" onclick="javascript:location.href='login?source=qq'"> <a href="#"
+						<span id="custom_display_128" onclick="javascript:location.href='locaLogin?source=qq'"> <a href="#"
 							class="button" id="message_REGISTER">关联已有账号</a>
 						</span>  <a style="display: none" id="redirectLink" href="" target="_top"></a>
 						<a style="display: none" id="redirectTwoPhraseLoginLink" href=""></a>

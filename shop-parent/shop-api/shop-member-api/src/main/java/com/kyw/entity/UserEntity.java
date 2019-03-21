@@ -21,5 +21,7 @@ public class UserEntity extends BaseEntity {
 	
 	@JsonProperty(value = "email")
 	private String email;
-
+	
+	@JsonProperty(value = "openid")
+	private String openId;
 }

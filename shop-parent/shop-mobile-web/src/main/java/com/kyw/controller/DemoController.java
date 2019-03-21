@@ -16,8 +16,8 @@ public class DemoController extends BaseController{
 	private static final String INDEX = "index";
 	
 	@RequestMapping("/index")
-	public String index(HttpServletRequest request,String token) {
-		log.info("my first freemarke.ftl,userName:{}",getUserEntity(token).getUserName());
+	public String index(HttpServletRequest request) {
+		log.info("my first freemarke.ftl,userName:{}");
 		return INDEX;
 	}
 }

@@ -52,7 +52,10 @@
 				<div class="ng-form-area show-place" id="form-area">
 					<form method="post" action="login" id="miniLogin"
 						onsubmit="return MiniLogin.validateForm();">
-
+						<input type="hidden" name="source"
+						<#if source??>						
+						value="${source}"/>
+						</#if>
 						<div class="shake-area" id="shake_area" style="z-index: 30;">
 							<div class="enter-area display-custom-hide" id="revalidate_user">
 								<p class="revalidate-user-name" id="revalidate_user_name"></p>
@@ -119,7 +122,7 @@
 
 							<div class="ng-link-area">
 								<span> <a
-									href="https://account.xiaomi.com/pass/sns/login/auth?appid=100284651&callback=http%3A%2F%2Fm.mi.com%2Fmshopapi%2Fv1%2Fauthorize%2Fsso_callback%3Ffollowup%3Dhttp%253A%252F%252Fm.mi.com%252Findex.html%2523ac%253Daccount%2526op%253Dindex%26sign%3DYjJhY2VjZWEwZDYzOTNhNmZhOTRjYmRmMDVlN2ZlZTJhZDFhOTViOA%2C%2C&sid=mi_eshopm"
+									href="authorizeUrl"
 									id="other_method_default">QQ联合登录</a><span> | </span>
 								</span> <span id="custom_display_16"> <a
 									href="javascript:void(0);" id="other_method">其他方式登录</a> <span>

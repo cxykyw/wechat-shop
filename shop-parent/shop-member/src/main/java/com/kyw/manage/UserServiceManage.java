@@ -21,5 +21,5 @@ public interface UserServiceManage {
 	
 	public Map<String,Object> getUser(String token);
 	
-	
+	public Map<String, Object> userLoginWithOpenId(String openid);
 }

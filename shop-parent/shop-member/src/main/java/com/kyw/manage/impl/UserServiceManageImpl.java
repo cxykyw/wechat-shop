@@ -37,10 +37,10 @@ public class UserServiceManageImpl extends BaseApiService implements UserService
 
 	@Autowired
 	private TokenUtils tokenUtils;
-	
+
 	@Autowired
 	private BaseRedisService baseRedisService;
-	
+
 	@Value("${messages.queue}")
 	private String MESSAGE_QUEUE;
 
@@ -83,37 +83,57 @@ public class UserServiceManageImpl extends BaseApiService implements UserService
 	}
 
 	@Override
-	public Map<String,Object> login(UserEntity userEntity) {
+	public Map<String, Object> login(UserEntity userEntity) {
 		// 先登录。查找用户
 		String phone = userEntity.getPhone();
 		String password = userEntity.getPassword();
 		String newPassword = MD5WithSalt(phone, password);
 		UserEntity user = userDao.getUserByPhoneAndPwd(phone, newPassword);
-		if(user == null) {
+		if (user == null) {
 			return setResultError("用户名或密码错误");
 		}
 		
+		String openId = userEntity.getOpenId();
+		if(!StringUtils.isEmpty(openId)) {
+			userDao.updateUserByOpenId(openId, DateUtils.getTimestamp(), user.getId());
+		}
 		// 生成token
-		String token = tokenUtils.getToken();
-		
-		// 将用户的userId存入到redis，key为token
-		Long id = user.getId();
-		baseRedisService.set(token, id+"",TokenConstant.TOKEN_TIMEOUT);
-		
+		String token = setUserToken(user.getId());
+
 		// 返回token
 		return setResultSuccessData(token);
 	}
 
 	@Override
 	public Map<String, Object> getUser(String token) {
-		//从redis中查找
+		// 从redis中查找
 		String userId = (String) baseRedisService.get(token);
-		if(StringUtils.isEmpty(userId)) {
+		if (StringUtils.isEmpty(userId)) {
 			return setResultError("用户已经过期");
 		}
 		Long newUserId = Long.parseLong(userId);
 		UserEntity userInfo = userDao.getUserById(newUserId);
 		userInfo.setPassword(null);
 		return setResultSuccessData(userInfo);
+	}
+
+	@Override
+	public Map<String, Object> userLoginWithOpenId(String openid) {
+		UserEntity findUser = userDao.findUserByOpenId(openid);
+		if (findUser == null) {
+			return setResultError("没有关联用户");
+		}
+		
+		//自动登录
+		String token = setUserToken(findUser.getId());
+		return setResultSuccessData(token);
+	}
+
+	private String setUserToken(Long id) {
+		String token = tokenUtils.getToken();
+		// 将用户的userId存入到redis，key为token
+		baseRedisService.set(token, id + "", TokenConstant.TOKEN_TIMEOUT);
+		// 返回token
+		return token;
 	}
 }
